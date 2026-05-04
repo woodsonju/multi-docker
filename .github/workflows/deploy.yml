@@ -19,7 +19,7 @@ jobs:
       - run: docker build -t woodson31/multi-server ./server
       - run: docker build -t woodson31/multi-worker ./worker
 
-    #   - run: docker push woodson31/multi-client
-    #   - run: docker push woodson31/multi-nginx
-    #   - run: docker push woodson31/multi-server
-    #   - run: docker push woodson31/multi-worker
+      - run: docker push woodson31/multi-client
+      - run: docker push woodson31/multi-nginx
+      - run: docker push woodson31/multi-server
+      - run: docker push woodson31/multi-worker
