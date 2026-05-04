@@ -13,6 +13,7 @@ jobs:
       - run: docker build -t woodson31/react-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true woodson31/react-test npm test
 
+      #Take those images and push them to docker hub
       - run: docker build -t woodson31/multi-client ./client
       - run: docker build -t woodson31/multi-nginx ./nginx
       - run: docker build -t woodson31/multi-server ./server
