@@ -19,7 +19,25 @@ jobs:
       - run: docker build -t woodson31/multi-server ./server
       - run: docker build -t woodson31/multi-worker ./worker
 
+      # Log in to the Docker CLI and push images to Docker Hub
       - run: docker push woodson31/multi-client
       - run: docker push woodson31/multi-nginx
       - run: docker push woodson31/multi-server
       - run: docker push woodson31/multi-worker
+
+      - name: Generate deployment package
+        # Create a zip file of the current directory, excluding .git files
+        run: zip -r deploy.zip . -x '*.git*'
+
+      # Deploy to Elastic Beanstalk
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: "multi-docker"
+          environment_name: "Multi-docker-env"
+          existing_bucket_name: "elasticbeanstalk-eu-north-1-244704555729"
+          version_label: ${{ github.sha }}
+          region: "eu-north-1"
+          deployment_package: "deploy.zip"
